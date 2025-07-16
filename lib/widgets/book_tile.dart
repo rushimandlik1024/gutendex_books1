@@ -9,23 +9,31 @@ class BookTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(8),
+      elevation: 3,
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
-        // ✅ CHANGE #1: Check if image is available
+        contentPadding: const EdgeInsets.all(10),
         leading: book.coverImage != null
-            ? Image.network(
-          book.coverImage!,
-          width: 60,
-          height: 80,
-          fit: BoxFit.cover,
-          // ✅ CHANGE #2: Handle image errors gracefully
-          errorBuilder: (context, error, stackTrace) {
-            return const Icon(Icons.image_not_supported, size: 60);
-          },
+            ? ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(
+            book.coverImage!,
+            width: 60,
+            height: 90,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.image_not_supported, size: 60);
+            },
+          ),
         )
             : const Icon(Icons.image_not_supported, size: 60),
-        title: Text(book.title),
-        subtitle: Text(book.authors.join(', ')),
+        title: Text(book.title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(
+          book.authors.join(', '),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }

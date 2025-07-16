@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/book.dart';
@@ -92,16 +91,27 @@ class _BooksListScreenState extends State<BooksListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.category)),
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: Text(widget.category),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             child: TextField(
               controller: _searchController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search by title or author...',
-                border: OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.search),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
               ),
               onChanged: _onSearchChanged,
             ),
@@ -110,6 +120,7 @@ class _BooksListScreenState extends State<BooksListScreen> {
             child: ListView.builder(
               controller: _scrollController,
               itemCount: books.length + (isLoading ? 1 : 0),
+              padding: const EdgeInsets.only(bottom: 16),
               itemBuilder: (context, index) {
                 if (index < books.length) {
                   return GestureDetector(
